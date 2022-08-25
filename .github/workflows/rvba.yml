@@ -1,0 +1,37 @@
+name: \[Playground\] RVBA
+on: workflow_dispatch
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+      - name: Run script
+        run: |
+          chmod +x ./build-rvba-bootstrap.sh
+          ./build-rvba-bootstrap.sh
+          find -type f -name '*.apk'
+      - name: Zip logs
+        run: |
+          sudo apt install zip -y
+          zip logs.zip logs/*
+      - name: Upload logs
+        uses: actions/upload-artifact@v3
+        with:
+          name: logs
+          path: logs.zip
+      - name: Checking if APK was built
+        id: exists
+        uses: andstor/file-existence-action@v1
+        with:
+          files: "**/*.apk"
+      - name: Zip APKs if exist
+        if: steps.exists.outputs.files_exists == 'true'
+        run: |
+          zip apks.zip $(find -type f -name '*.apk')
+      - name: Upload APK if exists
+        if: steps.exists.outputs.files_exists == 'true'
+        uses: actions/upload-artifact@v3
+        with:
+          name: APKs
+          path: apks.zip
