@@ -41,11 +41,21 @@ mkdir logs
   cp $(find -name bootstrap-*.zip -type f) ~
 
   log "Deleting bootstrap build cache"
-  rm -rf termux-packages
+  cd ~
   docker rm -vf $(docker ps -aq)
 
   log "Cloning termux-app"
   git clone --depth=1 --no-tags https://github.com/termux/termux-app
+
+  log "Patching setup scripts"
+  sed -i '/venv/d' termux-packages/scripts/setup-ubuntu.sh
+  sed -i 's/openjdk-18/openjdk-17/g' termux-packages/scripts/setup-ubuntu.sh
+  sed -i 's#cmdline-tools/bin#cmdline-tools/latest/bin#g' termux-packages/scripts/setup-android-sdk.sh
+
+  log "Running setup scripts"
+  ./termux-packages/scripts/setup-ubuntu.sh
+  ./termux-packages/scripts/setup-android-sdk.sh
+
   cd termux-app
 
   log "Changing package IDs"
