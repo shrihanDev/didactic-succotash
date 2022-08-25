@@ -41,7 +41,7 @@ mkdir logs
   cp $(find -name bootstrap-*.zip -type f) ~
 
   log "Deleting bootstrap build cache"
-  cd ~
+  cd ..
   docker rm -vf $(docker ps -aq)
 
   log "Cloning termux-app"
