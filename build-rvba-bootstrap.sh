@@ -21,11 +21,11 @@ mkdir logs
 #  ./scripts/setup-android-sdk.sh
 
   log "Changing package ID"
-  sed -i 's/TERMUX_APP_PACKAGE=com.termux/TERMUX_APP_PACKAGE=com.reisxd.rvba/g' scripts/properties.sh
+  sed -i 's/TERMUX_APP_PACKAGE="com.termux"/TERMUX_APP_PACKAGE="com.reisxd.rvba"/g' scripts/properties.sh
 
-#  log "Patching build-bootstrap.sh"
-#  curl -sLo scripts/bb.sh.patch https://github.com/termux/termux-packages/commit/f6fa7e932760e4edd67c155ca52ece3a8776d2c5.patch
-#  patch -i scripts/bb.sh.patch scripts/build-bootstrap.sh
+ log "Patching build-bootstrap.sh"
+ curl -sLo scripts/bb.sh.patch https://github.com/termux/termux-packages/commit/f6fa7e932760e4edd67c155ca52ece3a8776d2c5.patch
+ patch -i scripts/bb.sh.patch scripts/build-bootstrap.sh
 
   log "Building bootstrap for aarch64"
   ./scripts/run-docker.sh ./scripts/build-bootstraps.sh --add nodejs-lts,openjdk-17 --architectures aarch64
