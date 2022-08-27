@@ -13,7 +13,6 @@ jobs:
         run: |
           chmod +x ./build-rvba-bootstrap.sh
           ./build-rvba-bootstrap.sh
-          find -type f -name '*.apk'
       - name: Zip logs
         run: |
           sudo apt install zip -y

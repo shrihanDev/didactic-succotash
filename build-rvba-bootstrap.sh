@@ -24,8 +24,8 @@ mkdir logs
   ./scripts/setup-android-sdk.sh
 
   log "Restoring the setup scripts"
-  git reset --hard HEAD scripts/setup-ubuntu.sh
-  git reset --hard HEAD scripts/setup-android-sdk.sh
+  git reset HEAD scripts/setup-ubuntu.sh
+  git reset HEAD scripts/setup-android-sdk.sh
 
   log "Changing package ID"
   sed -i 's/TERMUX_APP_PACKAGE="com.termux"/TERMUX_APP_PACKAGE="com.reisxd.rvba"/g' scripts/properties.sh
