@@ -27,8 +27,8 @@ mkdir logs
   ./scripts/setup-android-sdk.sh
 
   log "Restoring the setup scripts"
-  git reset HEAD scripts/setup-ubuntu.sh
-  git reset HEAD scripts/setup-android-sdk.sh
+  git reset --hard HEAD #scripts/setup-ubuntu.sh
+  git reset --hard HEAD #scripts/setup-android-sdk.sh
 
  log "Patching build-bootstrap.sh"
  curl -sLo scripts/build-bootstraps.sh https://raw.githubusercontent.com/termux/termux-packages/f6fa7e932760e4edd67c155ca52ece3a8776d2c5/scripts/build-bootstraps.sh
