@@ -34,10 +34,10 @@ mkdir logs
  curl -sLo scripts/build-bootstraps.sh https://raw.githubusercontent.com/termux/termux-packages/f6fa7e932760e4edd67c155ca52ece3a8776d2c5/scripts/build-bootstraps.sh
 
   log "Building bootstrap for aarch64"
-  ./scripts/run-docker.sh ./scripts/build-bootstraps.sh --add nodejs-lts,openjdk-17 --architectures aarch64
+  ./scripts/build-bootstraps.sh --add nodejs-lts,openjdk-17 --architectures aarch64
 
   log "Building bootstrap for arm"
-  ./scripts/run-docker.sh ./scripts/build-bootstraps.sh --add nodejs-lts,openjdk-17 --architectures arm
+  ./scripts/build-bootstraps.sh --add nodejs-lts,openjdk-17 --architectures arm
 } | tee -a logs/build-bootstrap.log
 
 {
