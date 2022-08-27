@@ -17,6 +17,19 @@ mkdir logs
   log "Changing package ID"
   sed -i 's/TERMUX_APP_PACKAGE="com.termux"/TERMUX_APP_PACKAGE="com.reisxd.rvba"/g' scripts/properties.sh
 
+  log "Patching setup scripts"
+  sed -i '/venv/d' scripts/setup-ubuntu.sh
+  sed -i 's/openjdk-18/openjdk-17/g' scripts/setup-ubuntu.sh
+  sed -i 's#cmdline-tools/bin#cmdline-tools/latest/bin#g' scripts/setup-android-sdk.sh
+
+  log "Running setup scripts"
+  ./scripts/setup-ubuntu.sh
+  ./scripts/setup-android-sdk.sh
+
+  log "Restoring the setup scripts"
+  git reset HEAD scripts/setup-ubuntu.sh
+  git reset HEAD scripts/setup-android-sdk.sh
+
  log "Patching build-bootstrap.sh"
  curl -sLo scripts/build-bootstraps.sh https://raw.githubusercontent.com/termux/termux-packages/f6fa7e932760e4edd67c155ca52ece3a8776d2c5/scripts/build-bootstraps.sh
 
@@ -40,18 +53,18 @@ mkdir logs
   log "Cloning termux-app"
   git clone --depth=1 --no-tags https://github.com/termux/termux-app
 
-  log "Patching setup scripts"
-  sed -i '/venv/d' termux-packages/scripts/setup-ubuntu.sh
-  sed -i 's/openjdk-18/openjdk-17/g' termux-packages/scripts/setup-ubuntu.sh
-  sed -i 's#cmdline-tools/bin#cmdline-tools/latest/bin#g' termux-packages/scripts/setup-android-sdk.sh
+#  log "Patching setup scripts"
+#  sed -i '/venv/d' termux-packages/scripts/setup-ubuntu.sh
+#  sed -i 's/openjdk-18/openjdk-17/g' termux-packages/scripts/setup-ubuntu.sh
+#  sed -i 's#cmdline-tools/bin#cmdline-tools/latest/bin#g' termux-packages/scripts/setup-android-sdk.sh
 
-  log "Running setup scripts"
-  ./termux-packages/scripts/setup-ubuntu.sh
-  ./termux-packages/scripts/setup-android-sdk.sh
+#  log "Running setup scripts"
+#  ./termux-packages/scripts/setup-ubuntu.sh
+#  ./termux-packages/scripts/setup-android-sdk.sh
 
-  log "Restoring the setup scripts"
-  git reset HEAD termux-packages/scripts/setup-ubuntu.sh
-  git reset HEAD termux-packages/scripts/setup-android-sdk.sh
+#  log "Restoring the setup scripts"
+#  git reset HEAD termux-packages/scripts/setup-ubuntu.sh
+#  git reset HEAD termux-packages/scripts/setup-android-sdk.sh
 
   cd termux-app
 
