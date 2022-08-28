@@ -14,13 +14,21 @@ jobs:
         run: |
           mkdir logs
           chmod +x ./rvba/*.sh
-          ./rvba/build-rvba-bootstrap.sh || echo "::set-output name=bootstrap_error::1"
+          if ./rvba/build-rvba-bootstrap.sh; then
+            echo "::set-output name=bootstrap_error::0"
+          else
+            echo "::set-output name=bootstrap_error::1"
+          fi
       - name: "Run script [app]"
         id: app
-        if: steps.bootstraps.outputs.bootstrap_error != 1
+        if: steps.bootstraps.outputs.bootstrap_error == 0
         continue-on-error: true
         run: |
-          ./rvba/build-rvba-app.sh || echo "::set-output name=app_error::1"
+          if ./rvba/build-rvba-app.sh; then
+            echo "::set-output name=app_error::0"
+          else
+            echo "::set-output name=app_error::1"
+          fi
       - name: Zip logs
         run: |
           sudo apt install zip -y
@@ -31,11 +39,11 @@ jobs:
           name: logs
           path: logs.zip
       - name: Zip APKs if exist
-        if: steps.app.outputs.app_error != 1
+        if: steps.app.outputs.app_error == 0
         run: |
           zip apks.zip $(find -type f -name '*.apk')
       - name: Upload APK if exists
-        if: steps.app.outputs.app_error != 1
+        if: steps.app.outputs.app_error == 0
         uses: actions/upload-artifact@v3
         with:
           name: APKs
