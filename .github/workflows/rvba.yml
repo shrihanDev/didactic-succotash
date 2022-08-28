@@ -8,11 +8,19 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
-      - name: Run script
+      - name: "Run script [bootstrap]"
+        id: bootstraps
         continue-on-error: true
         run: |
-          chmod +x ./build-rvba-bootstrap.sh
-          ./build-rvba-bootstrap.sh
+          mkdir logs
+          chmod +x ./rvba/*.sh
+          ./rvba/build-rvba-bootstrap.sh || echo "::set-output name=bootstrap_error::1"
+      - name: "Run script [app]"
+        id: app
+        if: steps.bootstraps.outputs.bootstrap_error != 1
+        continue-on-error: true
+        run: |
+          ./rvba/build-rvba-app.sh || echo "::set-output name=app_error::1"
       - name: Zip logs
         run: |
           sudo apt install zip -y
@@ -22,17 +30,12 @@ jobs:
         with:
           name: logs
           path: logs.zip
-      - name: Checking if APK was built
-        id: exists
-        uses: andstor/file-existence-action@v1
-        with:
-          files: "**/*.apk"
       - name: Zip APKs if exist
-        if: steps.exists.outputs.files_exists == 'true'
+        if: steps.app.outputs.app_error != 1
         run: |
           zip apks.zip $(find -type f -name '*.apk')
       - name: Upload APK if exists
-        if: steps.exists.outputs.files_exists == 'true'
+        if: steps.app.outputs.app_error != 1
         uses: actions/upload-artifact@v3
         with:
           name: APKs
