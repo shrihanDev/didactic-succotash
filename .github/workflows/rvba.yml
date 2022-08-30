@@ -1,0 +1,50 @@
+name: "[Playground] RVBA"
+on: workflow_dispatch
+env:
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - name: "Run script [bootstrap]"
+        id: bootstraps
+        continue-on-error: true
+        run: |
+          mkdir logs
+          chmod +x ./rvba/*.sh
+          if ./rvba/build-rvba-bootstrap.sh; then
+            echo "::set-output name=bootstrap_error::0"
+          else
+            echo "::set-output name=bootstrap_error::1"
+          fi
+      - name: "Run script [app]"
+        id: app
+        if: steps.bootstraps.outputs.bootstrap_error == 0
+        continue-on-error: true
+        run: |
+          if ./rvba/build-rvba-app.sh; then
+            echo "::set-output name=app_error::0"
+          else
+            echo "::set-output name=app_error::1"
+          fi
+      - name: Zip logs
+        run: |
+          sudo apt install zip -y
+          zip logs.zip logs/*
+      - name: Upload logs
+        uses: actions/upload-artifact@v3
+        with:
+          name: logs
+          path: logs.zip
+      - name: Zip APKs if exist
+        if: steps.app.outputs.app_error == 0
+        run: |
+          zip apks.zip $(find -type f -name '*.apk')
+      - name: Upload APK if exists
+        if: steps.app.outputs.app_error == 0
+        uses: actions/upload-artifact@v3
+        with:
+          name: APKs
+          path: apks.zip
