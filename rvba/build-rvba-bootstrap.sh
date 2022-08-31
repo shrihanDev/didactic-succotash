@@ -22,13 +22,19 @@ log(){
   #./scripts/setup-ubuntu.sh
   #./scripts/setup-android-sdk.sh
 
-  log "Patching build script"
-  curl -sLo scripts/build-bootstraps.sh https://github.com/termux/termux-packages/raw/f6fa7e932760e4edd67c155ca52ece3a8776d2c5/scripts/build-bootstraps.sh
+  log "Patching generate script"
+  curl -sLo scripts/generate-bootstraps.sh https://github.com/termux/termux-packages/raw/60a48180ed2e316404e1913fd8b6f382520cb333/scripts/generate-bootstraps.sh
+
+  log "Building packages for aarch64"
+  ./scripts/run-docker.sh ./build-package.sh -a aarch64 bash dash coreutils nano unzip nodejs-lts openjdk-17
+
+  log "Building packages for arm"
+  ./scripts/run-docker.sh ./build-package.sh -a arm bash dash coreutils nano nodejs-lts openjdk-17
 
   log "Building bootstrap for aarch64"
-  ./scripts/run-docker.sh ./scripts/build-bootstraps.sh --add nodejs-lts,openjdk-17 --architectures aarch64
+  ./scripts/run-docker.sh ./scripts/generate-bootstraps.sh --architectures aarch64 -c -i bash,dash,coreutils,nano,unzip,nodejs-lts,openjdk-17
 
   log "Building bootstrap for arm"
-  ./scripts/run-docker.sh ./scripts/build-bootstraps.sh --add nodejs-lts,openjdk-17 --architectures arm
+  ./scripts/run-docker.sh ./scripts/generate-bootstraps.sh --architectures arm -c -i bash,dash,coreutils,nano,unzip,nodejs-lts,openjdk-17
 } | tee -a logs/build-bootstrap.log
 
