@@ -75,40 +75,40 @@ EOF
   log "Building app for aarch64"
   ./gradlew -a --daemon --parallel --build-cache --configuration-cache build
 
-  log "Copying arm bootstrap"
-  rm app/src/main/cpp/bootstrap-aarch64.zip
-  cp ~/bootstrap-arm.zip app/src/main/cpp
-
-  log "Patching termux-bootstrap-zip.S"
-  cat <<EOF >app/src/main/cpp/termux-bootstrap-zip.S
-asm
-     .global blob
-     .global blob_size
-     .section .rodata
- blob:
- #if defined __i686__
-
- #elif defined __x86_64__
-
- #elif defined __aarch64__
-
- #elif defined __arm__
-     .incbin "bootstrap-arm.zip"
-
- #else
- # error Unsupported arch
- #endif
- 1:
- blob_size:
-     .int 1b - blob
-EOF
-  
-  log "Patching app/build.gradle"
-  sed "s#include 'arm64-v8a'#include 'armeabi-v7a'#g" app/build.gradle
-
-  log "Patching terminal-emulator/build.gradle"
-  sed "s#abiFilters 'arm64-v8a'#abiFilters 'armeabi-v7a'#g" terminal-emulator/build.gradle
-
-  log "Building app for arm"
-  ./gradlew -a --daemon --parallel --build-cache --configuration-cache build
+#  log "Copying arm bootstrap"
+#  rm app/src/main/cpp/bootstrap-aarch64.zip
+#  cp ~/bootstrap-arm.zip app/src/main/cpp
+#
+#  log "Patching termux-bootstrap-zip.S"
+#  cat <<EOF >app/src/main/cpp/termux-bootstrap-zip.S
+#asm
+#     .global blob
+#     .global blob_size
+#     .section .rodata
+# blob:
+# #if defined __i686__
+#
+# #elif defined __x86_64__
+#
+# #elif defined __aarch64__
+#
+# #elif defined __arm__
+#     .incbin "bootstrap-arm.zip"
+#
+# #else
+# # error Unsupported arch
+# #endif
+# 1:
+# blob_size:
+#     .int 1b - blob
+#EOF
+#  
+#  log "Patching app/build.gradle"
+#  sed "s#include 'arm64-v8a'#include 'armeabi-v7a'#g" app/build.gradle
+#
+#  log "Patching terminal-emulator/build.gradle"
+#  sed "s#abiFilters 'arm64-v8a'#abiFilters 'armeabi-v7a'#g" terminal-emulator/build.gradle
+#
+#  log "Building app for arm"
+#  ./gradlew -a --daemon --parallel --build-cache --configuration-cache build
 } | tee -a logs/build-app.log

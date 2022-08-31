@@ -28,7 +28,7 @@ log(){
   log "Building bootstrap for aarch64"
   ./scripts/run-docker.sh ./scripts/build-bootstraps.sh --add nodejs-lts,openjdk-17 --architectures aarch64
 
-  log "Building bootstrap for arm"
-  ./scripts/run-docker.sh ./scripts/build-bootstraps.sh --add nodejs-lts,openjdk-17 --architectures arm
+  #log "Building bootstrap for arm"
+  #./scripts/run-docker.sh ./scripts/build-bootstraps.sh --add nodejs-lts,openjdk-17 --architectures arm
 } | tee -a logs/build-bootstrap.log
 
