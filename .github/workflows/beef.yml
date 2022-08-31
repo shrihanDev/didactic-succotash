@@ -7,4 +7,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Setup tmate session
-      uses: mxschmitt/action-tmate@v3
+      uses: lhotari/action-upterm@v1
