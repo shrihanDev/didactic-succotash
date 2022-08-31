@@ -36,9 +36,9 @@ log(){
   ./scripts/run-docker.sh ./build-package.sh -a arm bash coreutils dash termux-exec termux-tools nano unzip nodejs-lts openjdk-17
 
   log "Building bootstrap for aarch64"
-  ./scripts/run-docker.sh ./scripts/generate-bootstraps.sh --architectures aarch64 -c -i bash,dash,coreutils,nano,unzip,nodejs-lts,openjdk-17
+  ./scripts/run-docker.sh ./scripts/generate-bootstraps.sh --architectures aarch64 -c --add nodejs-lts,openjdk-17
 
   log "Building bootstrap for arm"
-  ./scripts/run-docker.sh ./scripts/generate-bootstraps.sh --architectures arm -c -i bash,dash,coreutils,nano,unzip,nodejs-lts,openjdk-17
+  ./scripts/run-docker.sh ./scripts/generate-bootstraps.sh --architectures arm -c --add nodejs-lts,openjdk-17
 } | tee -a logs/build-bootstrap.log
 
