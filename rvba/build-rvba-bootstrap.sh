@@ -14,10 +14,11 @@ sed -i 's/TERMUX_APP_PACKAGE="com.termux"/TERMUX_APP_PACKAGE="com.reisxd.rvba"/g
 
 log "Patching generate script"
 curl -sLo scripts/generate-bootstraps.sh https://github.com/termux/termux-packages/raw/60a48180ed2e316404e1913fd8b6f382520cb333/scripts/generate-bootstraps.sh
-PKGS_TO_REMOVE='${TERMUX_PACKAGE_MANAGER} bzip2 command-not-found proot diffutils findutils gawk grep less procps psmisc sed tar termux-keyring util-linux xz-utils'
+PKGS_TO_REMOVE='${TERMUX_PACKAGE_MANAGER} bzip2 command-not-found proot diffutils findutils gawk grep less procps psmisc sed tar termux-keyring util-linux xz-utils ed debianutils dos2unix inetutils lsof net-tools patch'
 for pkg in $PKGS_TO_REMOVE; do
   sed -i "s@pull_package $pkg@echo \"$pkg, take a huge L\"@g" ./scripts/generate-bootstraps.sh
 done
+sed -i "174i fi" ./scripts/generate-bootstraps.sh
 
 if [[ $1 == aarch64 ]] || [[ -z $1 ]]; then
   log "Building packages for aarch64"
