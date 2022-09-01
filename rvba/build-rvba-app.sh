@@ -5,8 +5,6 @@ log(){
   echo -e "\e[34m[**] $1\e[0m" >&2
 }
 
-clear
-
 log "Cloning termux-app"
 git clone --depth=1 --no-tags https://github.com/termux/termux-app
 cd termux-app
