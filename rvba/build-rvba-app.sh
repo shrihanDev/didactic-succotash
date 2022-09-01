@@ -67,7 +67,7 @@ EOF
   sed -i "s#abiFilters 'x86', 'x86_64', 'armeabi-v7a', 'arm64-v8a'#abiFilters 'arm64-v8a'#g" terminal-emulator/build.gradle
 
   log "Building app for aarch64"
-  ./gradlew -a --daemon --parallel --build-cache --configuration-cache build
+  ./gradlew -a --daemon --parallel --build-cache --configuration-cache assembleDebug
 
 elif [[ $1 == arm ]]; then
 
@@ -106,7 +106,7 @@ EOF
   sed -i "s#abiFilters 'x86', 'x86_64', 'armeabi-v7a', 'arm64-v8a'#abiFilters 'armeabi-v7a'#g" terminal-emulator/build.gradle
 
   log "Building app for arm"
-  ./gradlew -a --daemon --parallel --build-cache --configuration-cache build
+  ./gradlew -a --daemon --parallel --build-cache --configuration-cache assembleDebug
 
 else
   log "Invalid arch: $1"
