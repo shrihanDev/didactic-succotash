@@ -6,5 +6,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
     - name: Setup tmate session
       uses: lhotari/action-upterm@v1
