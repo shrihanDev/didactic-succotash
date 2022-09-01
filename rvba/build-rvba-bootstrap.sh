@@ -18,7 +18,8 @@ PKGS_TO_REMOVE='${TERMUX_PACKAGE_MANAGER} bzip2 command-not-found proot diffutil
 for pkg in $PKGS_TO_REMOVE; do
   sed -i "s@pull_package $pkg@echo \"$pkg, take a huge L\"@g" ./scripts/generate-bootstraps.sh
 done
-sed -i "174i fi" ./scripts/generate-bootstraps.sh
+sed -i "174ifi" ./scripts/generate-bootstraps.sh
+sed -i "227d" ./scripts/generate-bootstraps.sh
 
 if [[ $1 == aarch64 ]] || [[ -z $1 ]]; then
   log "Building packages for aarch64"
