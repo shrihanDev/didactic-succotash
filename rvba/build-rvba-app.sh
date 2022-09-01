@@ -7,13 +7,6 @@ log(){
 
 clear
 
-log "Saving bootstrap zips"
-cp $(find -name bootstrap-*.zip -type f) ~
-
-log "Deleting bootstrap build cache"
-cd ..
-docker rm -vf $(docker ps -aq)
-
 log "Cloning termux-app"
 git clone --depth=1 --no-tags https://github.com/termux/termux-app
 cd termux-app

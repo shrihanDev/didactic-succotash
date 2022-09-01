@@ -1,9 +1,12 @@
 name: "[Playground] RVBA"
+
 on: workflow_dispatch
+
 env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 jobs:
-  build:
+  build-bootstraps:
     strategy:
       matrix:
         arch: [aarch64, arm]
@@ -11,24 +14,38 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
-      - name: "Run script [bootstrap]"
+      - name: Run script
         run: |
           chmod +x ./rvba/*.sh
           ./rvba/build-rvba-bootstrap.sh ${{ matrix.arch }}
-      - name: "Run script [app]"
+      - name: Upload bootstrap-${{ matrix.arch }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: bootstrap-${{ matrix.arch }}
+          path: termux-packages/**/bootstrap-${{ matrix.arch }}.zip
+
+  build-apps:
+    strategy:
+      matrix:
+        arch: [aarch64, arm]
+    runs-on: ubuntu-latest
+    needs: build-bootstraps
+    steps:
+      - name: Download bootstrap-${{ matrix.arch }}
+        uses: actions/download-artifact@v3
+        with:
+          name: bootstrap-${{ matrix.arch }}
+          path: ~/bootstrap-${{ matrix.arch }}.zip
+      - name: Run script
         run: |
           ./rvba/build-rvba-app.sh ${{ matrix.arch }}
-      - name: Zip APKs if exist
-        run: |
-          cd termux-app
-          find -type f -name *.apk
-          if zip apks.zip $(find -type f -name '*.apk'); then
-            echo "::set-output name=zip_error::0"
-          else
-            echo "::set-output name=zip_error::1"
-          fi
-      - name: Upload APK if exists
+
+  upload-apk:
+    runs-on: ubuntu-latest
+    needs: [build-bootstraps, build-apps]
+    steps:
+      - name: Upload APK
         uses: actions/upload-artifact@v3
         with:
           name: APKs
-          path: apks.zip
+          path: termux-app/**/*.apk
