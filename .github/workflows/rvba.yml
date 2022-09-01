@@ -4,6 +4,9 @@ env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 jobs:
   build:
+    strategy:
+      matrix:
+        arch: [aarch64, arm]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -11,10 +14,10 @@ jobs:
       - name: "Run script [bootstrap]"
         run: |
           chmod +x ./rvba/*.sh
-          ./rvba/build-rvba-bootstrap.sh
+          ./rvba/build-rvba-bootstrap.sh ${{ matrix.arch }}
       - name: "Run script [app]"
         run: |
-          ./rvba/build-rvba-app.sh
+          ./rvba/build-rvba-app.sh ${{ matrix.arch }}
       - name: Zip APKs if exist
         run: |
           cd termux-app
