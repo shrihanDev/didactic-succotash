@@ -9,43 +9,22 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
       - name: "Run script [bootstrap]"
-        id: bootstraps
-        continue-on-error: true
         run: |
-          mkdir logs
           chmod +x ./rvba/*.sh
-          if ./rvba/build-rvba-bootstrap.sh; then
-            echo "::set-output name=bootstrap_error::0"
-          else
-            echo "::set-output name=bootstrap_error::1"
-          fi
+          ./rvba/build-rvba-bootstrap.sh
       - name: "Run script [app]"
-        id: app
-        if: steps.bootstraps.outputs.bootstrap_error == 0
-        continue-on-error: true
         run: |
-          if ./rvba/build-rvba-app.sh; then
-            echo "::set-output name=app_error::0"
-          else
-            echo "::set-output name=app_error::1"
-          fi
-      - name: Zip logs
-        run: |
-          cd logs
-          sudo apt install zip -y
-          zip ../logs.zip *.log
-      - name: Upload logs
-        uses: actions/upload-artifact@v3
-        with:
-          name: logs
-          path: logs.zip
+          ./rvba/build-rvba-app.sh
       - name: Zip APKs if exist
-        if: steps.app.outputs.bootstrap_error == 0 && steps.app.outputs.app_error == 0
         run: |
           cd termux-app
-          zip apks.zip $(find -type f -name '*.apk')
+          find -type f -name *.apk
+          if zip apks.zip $(find -type f -name '*.apk'); then
+            echo "::set-output name=zip_error::0"
+          else
+            echo "::set-output name=zip_error::1"
+          fi
       - name: Upload APK if exists
-        if: steps.app.outputs.app_error == 0
         uses: actions/upload-artifact@v3
         with:
           name: APKs
