@@ -42,11 +42,6 @@ jobs:
         run: |
           chmod +x ./rvba/*.sh
           ./rvba/build-rvba-app.sh ${{ matrix.arch }}
-
-  upload-apk:
-    runs-on: ubuntu-latest
-    needs: [build-bootstraps, build-apps]
-    steps:
       - name: Upload APK
         uses: actions/upload-artifact@v3
         with:
