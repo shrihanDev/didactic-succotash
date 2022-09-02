@@ -1,18 +1,18 @@
 name: "[Playground] RVBA using Pre-built Bootstraps"
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      aarch64:
+        description: URL for aarch64 bootstrap
+        required: true
+        default: ''
+      arm:
+        description: URL for arm bootstrap
+        required: true
+        default: ''
 
-inputs:
-  aarchx64:
-    description: URL for aarch64 bootstrap
-    required: true
-    default: ''
-  arm:
-    description: URL for arm bootstrap
-    required: true
-    default: ''
-
-jobs:
+jobs: 
   build:
     strategy:
       matrix:
