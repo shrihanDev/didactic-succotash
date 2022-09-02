@@ -26,7 +26,10 @@ jobs:
         uses: actions/checkout@v3
       - name: Download bootstrap
         run: |
-          gh api /repos/shrihanDev/didactic-succotash/artifacts/${{format('{0}', format('github.event.inputs.{0}', matrix.arch))}}/zip > ~/bootstrap-${{ matrix.arch }}.zip
+          if [[ ${{ matrix.arch }} == aarch64 ]]
+            ID=${{ inputs.aarch64 }}
+          elif [[ ${{ matrix.arch }} == arm ]]
+          gh api /repos/shrihanDev/didactic-succotash/artifacts/${ID}/zip > ~/bootstrap-${{ matrix.arch }}.zip
       - name: Run script
         run: |
           chmod +x ./rvba/build-rvba-app.sh
