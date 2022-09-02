@@ -27,12 +27,12 @@ jobs:
       - name: Download bootstrap
         run: |
           if [[ ${{ matrix.arch }} == aarch64 ]]; then
-            ID=${{ inputs.aarch64 }}
+            echo "ID=${{ inputs.aarch64 }}" >> $GITHUB_ENV
           elif [[ ${{ matrix.arch }} == arm ]]; then
-            ID=${{ inputs.arm }}
+            echo "ID=${{ inputs.arm }}" >> $GITHUB_ENV
           fi
-          URL="/repos/shrihanDev/didactic-succotash/artifacts/$ID/zip"
-          gh api $URL > ~/bootstrap-${{ matrix.arch }}.zip
+          echo "URL=/repos/shrihanDev/didactic-succotash/artifacts/$ID/zip" >> $GITHUB_ENV
+          gh api "$URL" > ~/bootstrap-${{ matrix.arch }}.zip
       - name: Run script
         run: |
           chmod +x ./rvba/build-rvba-app.sh
