@@ -72,7 +72,6 @@ EOF
 elif [[ $1 == arm ]]; then
 
   log "Copying arm bootstrap"
-  rm app/src/main/cpp/bootstrap-aarch64.zip
   cp ~/bootstrap-arm.zip app/src/main/cpp
 
   log "Patching termux-bootstrap-zip.S"
