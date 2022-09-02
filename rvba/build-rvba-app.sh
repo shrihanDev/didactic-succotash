@@ -2,8 +2,8 @@
 set -euo pipefail
 
 log(){
+  [[ "$2" != n ]] && (echo "::group::$1"; return 0; )
   echo -e "\e[34m[**] $1\e[0m" >&2
-  [[ "$2" != n ]] && echo "::group::$1"
 }
 end_group(){
   echo "::endgroup::"
@@ -42,7 +42,7 @@ sed -i 's#implementation "com\.reisxd\.rvba:termux-am-library:v2\.0\.0"#implemen
 end_group
 
 log "Patching downloadBootstrap()" y
-sed -i '#def downloadBootstrap#a return;' app/build.gradle
+sed -i '/def downloadBootstrap/a return;' app/build.gradle
 end_group
 
 if [[ -z $1 ]] || [[ $1 == aarch64 ]]; then
