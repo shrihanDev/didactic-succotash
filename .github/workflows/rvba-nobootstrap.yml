@@ -31,7 +31,8 @@ jobs:
           elif [[ ${{ matrix.arch }} == arm ]]; then
             ID=${{ inputs.arm }}
           fi
-          gh api /repos/shrihanDev/didactic-succotash/artifacts/${ID}/zip > ~/bootstrap-${{ matrix.arch }}.zip
+          URL="/repos/shrihanDev/didactic-succotash/artifacts/$ID/zip"
+          gh api $URL > ~/bootstrap-${{ matrix.arch }}.zip
       - name: Run script
         run: |
           chmod +x ./rvba/build-rvba-app.sh
