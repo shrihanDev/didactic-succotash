@@ -4,13 +4,16 @@ on:
   workflow_dispatch:
     inputs:
       aarch64:
-        description: URL for aarch64 bootstrap
+        description: Artifact ID for aarch64 bootstrap
         required: true
         default: ''
       arm:
-        description: URL for arm bootstrap
+        description: Artifact ID for arm bootstrap
         required: true
         default: ''
+
+env:
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs: 
   build:
