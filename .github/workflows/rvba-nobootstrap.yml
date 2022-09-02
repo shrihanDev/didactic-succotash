@@ -29,6 +29,8 @@ jobs:
           if [[ ${{ matrix.arch }} == aarch64 ]]
             ID=${{ inputs.aarch64 }}
           elif [[ ${{ matrix.arch }} == arm ]]
+            ID=${{ inputs.arm }}
+          fi
           gh api /repos/shrihanDev/didactic-succotash/artifacts/${ID}/zip > ~/bootstrap-${{ matrix.arch }}.zip
       - name: Run script
         run: |
