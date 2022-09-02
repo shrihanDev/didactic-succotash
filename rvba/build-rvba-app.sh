@@ -23,11 +23,13 @@ log "Running setup scripts"
 
 log "Deleting termux-packages"
 rm -rf termux-packages
+
 cd termux-app
 
 log "Changing package IDs"
-git grep -l 'com.termux' | xargs sed -i 's#com.termux#com.reisxd.rvba#g'
+git grep -l 'com\.termux' | xargs sed -i 's#com\.termux#com\.reisxdw\.rvba#g'
 (git grep -l 'com_termux' | xargs sed -i 's#com_termux#com_reisxd_rvba#g') || true
+sed -i 's#implementation "com\.reisxd\.rvba:termux-am-library:v2\.0\.0"#implementation "com\.termux:termux-am-library:v2\.0\.0"#g' termux-shared/build.gradle
 
 log "Patching downloadBootstrap()"
 sed -i '#def downloadBootstrap#a return;' app/build.gradle
