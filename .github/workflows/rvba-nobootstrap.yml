@@ -1,0 +1,44 @@
+name: "[Playground] RVBA using Pre-built Bootstraps"
+
+on:
+  workflow_dispatch:
+    inputs:
+      aarch64:
+        description: Artifact ID for aarch64 bootstrap
+        required: true
+        default: ''
+      arm:
+        description: Artifact ID for arm bootstrap
+        required: true
+        default: ''
+
+env:
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs: 
+  build:
+    strategy:
+      matrix:
+        arch: [aarch64, arm]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - name: Download bootstrap
+        run: |
+          if [[ ${{ matrix.arch }} == aarch64 ]]; then
+            echo "ID=${{ inputs.aarch64 }}" >> $GITHUB_ENV
+          elif [[ ${{ matrix.arch }} == arm ]]; then
+            echo "ID=${{ inputs.arm }}" >> $GITHUB_ENV
+          fi
+          echo "URL=/repos/shrihanDev/didactic-succotash/artifacts/$ID/zip" >> $GITHUB_ENV
+          gh api "$URL" > ~/bootstrap-${{ matrix.arch }}.zip
+      - name: Run script
+        run: |
+          chmod +x ./rvba/build-rvba-app.sh
+          ./rvba/build-rvba-app.sh ${{ matrix.arch }}
+      - name: Upload APKs
+        uses: actions/upload-artifact@v3
+        with:
+          name: apps
+          path: termux-app/**/*.apk
