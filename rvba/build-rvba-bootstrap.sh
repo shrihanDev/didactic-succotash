@@ -27,11 +27,11 @@ end_group
 
 if [[ $1 == aarch64 ]] || [[ -z $1 ]]; then
   log "Building bootstrap for aarch64" y
-  ./scripts/run-docker.sh ./scripts/generate-bootstraps.sh --architectures aarch64 -c --add nodejs-lts,openjdk-17
+  ./scripts/run-docker.sh ./scripts/generate-bootstraps.sh --architectures aarch64--add nodejs-lts,openjdk-17
   end_group
 elif [[ $1 == arm ]]; then
   log "Building bootstrap for arm" y
-  ./scripts/run-docker.sh ./scripts/generate-bootstraps.sh --architectures arm -c --add nodejs-lts,openjdk-17
+  ./scripts/run-docker.sh ./scripts/generate-bootstraps.sh --architectures arm--add nodejs-lts,openjdk-17
   end_group
 else
   log "Invalid arch: $1" n
