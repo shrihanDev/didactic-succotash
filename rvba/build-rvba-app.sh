@@ -65,37 +65,37 @@ if [[ -z $1 ]] || [[ $1 == aarch64 ]]; then
   cp ~/bootstrap-aarch64.zip app/src/main/cpp
   end_group
 
-#  log "Patching termux-bootstrap-zip.S" y
-#  cat <<EOF >app/src/main/cpp/termux-bootstrap-zip.S
-#asm
-#   .global blob
-#   .global blob_size
-#   .section .rodata
-# blob:
-# #if defined __i686__
-#
-# #elif defined __x86_64__
-#
-# #elif defined __aarch64__
-#   .incbin "bootstrap-aarch64.zip"
-# #elif defined __arm__
-#
-# #else
-# # error Unsupported arch
-# #endif
-# 1:
-# blob_size:
-#   .int 1b - blob
-#EOF
-#  end_group
-#
-#  log "Patching app/build.gradle" y
-#  sed -i "s#include 'x86', 'x86_64', 'armeabi-v7a', 'arm64-v8a'#include 'arm64-v8a'#g" app/build.gradle
-#  end_group
-#
-#  log "Patching terminal-emulator/build.gradle" y
-#  sed -i "s#abiFilters 'x86', 'x86_64', 'armeabi-v7a', 'arm64-v8a'#abiFilters 'arm64-v8a'#g" terminal-emulator/build.gradle
-#  end_group
+  log "Patching termux-bootstrap-zip.S" y
+  cat <<EOF >app/src/main/cpp/termux-bootstrap-zip.S
+asm
+   .global blob
+   .global blob_size
+   .section .rodata
+ blob:
+ #if defined __i686__
+
+ #elif defined __x86_64__
+
+ #elif defined __aarch64__
+   .incbin "bootstrap-aarch64.zip"
+ #elif defined __arm__
+
+ #else
+ # error Unsupported arch
+ #endif
+ 1:
+ blob_size:
+   .int 1b - blob
+EOF
+  end_group
+
+  log "Patching app/build.gradle" y
+  sed -i "s#include 'x86', 'x86_64', 'armeabi-v7a', 'arm64-v8a'#include 'arm64-v8a'#g" app/build.gradle
+  end_group
+
+  log "Patching terminal-emulator/build.gradle" y
+  sed -i "s#abiFilters 'x86', 'x86_64', 'armeabi-v7a', 'arm64-v8a'#abiFilters 'arm64-v8a'#g" terminal-emulator/build.gradle
+  end_group
 
   log "Building app for aarch64" y
   ./gradlew assembleDebug
@@ -107,38 +107,38 @@ elif [[ $1 == arm ]]; then
   cp ~/bootstrap-arm.zip app/src/main/cpp
   end_group
 
-#  log "Patching termux-bootstrap-zip.S" y
-#  cat <<EOF >app/src/main/cpp/termux-bootstrap-zip.S
-#asm
-#   .global blob
-#   .global blob_size
-#   .section .rodata
-# blob:
-# #if defined __i686__
-#
-# #elif defined __x86_64__
-#
-# #elif defined __aarch64__
-#
-# #elif defined __arm__
-#   .incbin "bootstrap-arm.zip"
-#
-# #else
-# # error Unsupported arch
-# #endif
-# 1:
-# blob_size:
-#   .int 1b - blob
-#EOF
-#  end_group
-#
-#  log "Patching app/build.gradle" y
-#  sed -i "s#include 'x86', 'x86_64', 'armeabi-v7a', 'arm64-v8a'#include 'armeabi-v7a'#g" app/build.gradle
-#  end_group
-#
-#  log "Patching terminal-emulator/build.gradle" y
-#  sed -i "s#abiFilters 'x86', 'x86_64', 'armeabi-v7a', 'arm64-v8a'#abiFilters 'armeabi-v7a'#g" terminal-emulator/build.gradle
-#  end_group
+  log "Patching termux-bootstrap-zip.S" y
+  cat <<EOF >app/src/main/cpp/termux-bootstrap-zip.S
+asm
+   .global blob
+   .global blob_size
+   .section .rodata
+ blob:
+ #if defined __i686__
+
+ #elif defined __x86_64__
+
+ #elif defined __aarch64__
+
+ #elif defined __arm__
+   .incbin "bootstrap-arm.zip"
+
+ #else
+ # error Unsupported arch
+ #endif
+ 1:
+ blob_size:
+   .int 1b - blob
+EOF
+  end_group
+
+  log "Patching app/build.gradle" y
+  sed -i "s#include 'x86', 'x86_64', 'armeabi-v7a', 'arm64-v8a'#include 'armeabi-v7a'#g" app/build.gradle
+  end_group
+
+  log "Patching terminal-emulator/build.gradle" y
+  sed -i "s#abiFilters 'x86', 'x86_64', 'armeabi-v7a', 'arm64-v8a'#abiFilters 'armeabi-v7a'#g" terminal-emulator/build.gradle
+  end_group
 
   log "Building app for arm" y
   ./gradlew assembleDebug
