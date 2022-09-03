@@ -18,7 +18,7 @@ git clone --depth=1 --no-tags https://github.com/termux/termux-packages
 end_group
 
 log "Patching setup scripts" y
-sed -i 's/TERMUX_APP_PACKAGE="com.termux"/TERMUX_APP_PACKAGE="com.reisxd.rvba"/g' termux-packages/scripts/properties.sh
+#sed -i 's/TERMUX_APP_PACKAGE="com.termux"/TERMUX_APP_PACKAGE="com.reisxd.rvba"/g' termux-packages/scripts/properties.sh
 sed -i '/venv/d' termux-packages/scripts/setup-ubuntu.sh
 sed -i 's/openjdk-18/openjdk-17/g' termux-packages/scripts/setup-ubuntu.sh
 sed -i 's#cmdline-tools/bin#cmdline-tools/latest/bin#g' termux-packages/scripts/setup-android-sdk.sh
@@ -35,11 +35,11 @@ end_group
 
 cd termux-app
 
-log "Changing package IDs" y
-git grep -l 'com\.termux' | xargs sed -i 's#com\.termux#com\.reisxd\.rvba#g'
-(git grep -l 'com_termux' | xargs sed -i 's#com_termux#com_reisxd_rvba#g') || true
-sed -i 's#implementation "com\.reisxd\.rvba:termux-am-library:v2\.0\.0"#implementation "com\.termux:termux-am-library:v2\.0\.0"#g' termux-shared/build.gradle
-end_group
+# log "Changing package IDs" y
+# git grep -l 'com\.termux' | xargs sed -i 's#com\.termux#com\.reisxd\.rvba#g'
+# (git grep -l 'com_termux' | xargs sed -i 's#com_termux#com_reisxd_rvba#g') || true
+# sed -i 's#implementation "com\.reisxd\.rvba:termux-am-library:v2\.0\.0"#implementation "com\.termux:termux-am-library:v2\.0\.0"#g' termux-shared/build.gradle
+# end_group
 
 log "Patching downloadBootstrap()" y
 sed -i '/def downloadBootstrap/a return;' app/build.gradle
