@@ -2,9 +2,10 @@
 set -euo pipefail
 
 log(){
-  [[ "$2" != n ]] && (echo "::group::$1"; return 0; )
-  echo -e "\e[34m[**] $1\e[0m" >&2
+  [[ "$2" != n ]] && ( echo "::group::$1"; return 0; )
+  echo -e "\e[34m[***] $1\e[0m" >&2
 }
+
 end_group(){
   echo "::endgroup::"
 }
