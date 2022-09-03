@@ -46,6 +46,19 @@ log "Patching downloadBootstrap()" y
 sed -i '/def downloadBootstrap/a return;' app/build.gradle
 end_group
 
+log "Setting up variables" y
+RELEASE_VERSION_NAME="$GITHUB_REF_NAME+${GITHUB_SHA:0:7}"
+APK_DIR_PATH="./app/build/outputs/apk/debug"
+APK_VERSION_TAG="$RELEASE_VERSION_NAME-$1"
+APK_BASENAME_PREFIX="revanced-builder_$APK_VERSION_TAG"
+echo "APK_DIR_PATH=$APK_DIR_PATH" >> $GITHUB_ENV
+echo "APK_VERSION_TAG=$APK_VERSION_TAG" >> $GITHUB_ENV
+echo "APK_BASENAME_PREFIX=$APK_BASENAME_PREFIX" >> $GITHUB_ENV
+export TERMUX_APP_VERSION_NAME="${RELEASE_VERSION_NAME/v/}" 
+export TERMUX_APK_VERSION_TAG="$APK_VERSION_TAG"
+export TERMUX_PACKAGE_VARIANT="apt-android-7"
+end_group
+
 if [[ -z $1 ]] || [[ $1 == aarch64 ]]; then
 
   log "Copying aarch64 bootstrap" y
