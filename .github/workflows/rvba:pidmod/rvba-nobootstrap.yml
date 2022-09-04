@@ -1,4 +1,4 @@
-name: "[Playground] RVBA using Pre-built Bootstraps"
+name: "[Playground] RVBA:pidmod using Pre-built Bootstraps"
 
 on:
   workflow_dispatch:
