@@ -46,5 +46,5 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ env.APK_BASENAME_PREFIX }}-${{ matrix.arch }}
-          path: ${{ env.APK_DIR_PATH }}/${{ env.APK_BASENAME_PREFIX }}_*.apk
+          name: apps-${{ matrix.arch }}
+          path: termux-app/**/*.apk
