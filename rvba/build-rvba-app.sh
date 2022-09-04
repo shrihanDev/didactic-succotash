@@ -67,7 +67,6 @@ if [[ -z $1 ]] || [[ $1 == aarch64 ]]; then
 
   log "Patching termux-bootstrap-zip.S" y
   cat <<EOF >app/src/main/cpp/termux-bootstrap-zip.S
-asm
    .global blob
    .global blob_size
    .section .rodata
@@ -109,7 +108,6 @@ elif [[ $1 == arm ]]; then
 
   log "Patching termux-bootstrap-zip.S" y
   cat <<EOF >app/src/main/cpp/termux-bootstrap-zip.S
-asm
    .global blob
    .global blob_size
    .section .rodata

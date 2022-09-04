@@ -47,6 +47,7 @@ sed -i '/def downloadBootstrap/a return;' app/build.gradle
 end_group
 
 log "Setting up variables" y
+GITHUB_REF_NAME="$(if [[ "$GITHUB_REF_NAME" == "main" ]]; then; echo "v6.9.420"; else; echo "$GITHUB_REF_NAME"; fi)"
 RELEASE_VERSION_NAME="$GITHUB_REF_NAME+${GITHUB_SHA:0:7}"
 APK_DIR_PATH="./app/build/outputs/apk/debug"
 APK_VERSION_TAG="$RELEASE_VERSION_NAME-$1"
@@ -67,7 +68,6 @@ if [[ -z $1 ]] || [[ $1 == aarch64 ]]; then
 
   log "Patching termux-bootstrap-zip.S" y
   cat <<EOF >app/src/main/cpp/termux-bootstrap-zip.S
-asm
    .global blob
    .global blob_size
    .section .rodata
@@ -109,7 +109,6 @@ elif [[ $1 == arm ]]; then
 
   log "Patching termux-bootstrap-zip.S" y
   cat <<EOF >app/src/main/cpp/termux-bootstrap-zip.S
-asm
    .global blob
    .global blob_size
    .section .rodata
