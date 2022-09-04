@@ -153,3 +153,7 @@ else
   log "Invalid arch: $1" n
   exit 128
 fi
+
+log "Checking APK..." y
+find $APK_DIR_PATH
+end_group
