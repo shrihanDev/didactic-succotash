@@ -1,9 +1,6 @@
 name: "[Playground] RVBA"
 
-on:
-  push:
-    tags:
-      - v*.*.*
+on: workflow_dispatch
 
 env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
