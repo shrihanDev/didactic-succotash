@@ -47,7 +47,9 @@ sed -i '/def downloadBootstrap/a return;' app/build.gradle
 end_group
 
 log "Setting up variables" y
-GITHUB_REF_NAME="$(if [[ "$GITHUB_REF_NAME" == "main" ]]; then; echo "v6.9.420"; else; echo "$GITHUB_REF_NAME"; fi)"
+if [[ "$GITHUB_REF_NAME" == "main" ]]; then
+  GITHUB_REF_NAME="v6.9.420"
+fi
 RELEASE_VERSION_NAME="$GITHUB_REF_NAME+${GITHUB_SHA:0:7}"
 APK_DIR_PATH="./app/build/outputs/apk/debug"
 APK_VERSION_TAG="$RELEASE_VERSION_NAME-$1"
