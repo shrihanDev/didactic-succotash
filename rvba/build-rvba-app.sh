@@ -46,6 +46,10 @@ log "Patching downloadBootstrap()" y
 sed -i '/def downloadBootstrap/a return;' app/build.gradle
 end_group
 
+log "Patching gradle.properties" y
+sed -i 's#org.gradle.jvmargs=-Xmx2048M#org.gradle.jvmargs=-Xmx4606M#g' gradle.properties
+end_group
+
 log "Setting up variables" y
 if [[ "$GITHUB_REF_NAME" == "main" ]]; then
   GITHUB_REF_NAME="v6.9.420"
