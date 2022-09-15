@@ -35,7 +35,6 @@ if [[ $1 == aarch64 ]] || [[ -z $1 ]]; then
 
   log "Building bootstrap for aarch64" y
   ./scripts/run-docker.sh ./scripts/generate-bootstraps.sh --architectures aarch64 --add nodejs-lts,openjdk-17 -c
-  unzip -l bootstrap-aarch64.zip | grep SYMLINKS.txt
   end_group
 elif [[ $1 == arm ]]; then
   log "Building packages for arm" y
@@ -44,7 +43,6 @@ elif [[ $1 == arm ]]; then
 
   log "Building bootstrap for arm" y
   ./scripts/run-docker.sh ./scripts/generate-bootstraps.sh --architectures arm --add nodejs-lts,openjdk-17 -c
-  unzip -l bootstrap-arm.zip | grep SYMLINKS.txt
   end_group
 else
   log "Invalid arch: $1" n
