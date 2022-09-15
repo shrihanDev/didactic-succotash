@@ -12,29 +12,8 @@ end_group(){
 
 log "Cloning termux-app" y
 git clone --depth=1 --no-tags https://github.com/termux/termux-app
-end_group
-
-log "Cloning termux-packages" y
-git clone --depth=1 --no-tags https://github.com/termux/termux-packages
-end_group
-
-log "Patching setup scripts" y
-#sed -i 's/TERMUX_APP_PACKAGE="com.termux"/TERMUX_APP_PACKAGE="com.reisxd.rvba"/g' termux-packages/scripts/properties.sh
-sed -i '/venv/d' termux-packages/scripts/setup-ubuntu.sh
-sed -i 's/openjdk-18/openjdk-17/g' termux-packages/scripts/setup-ubuntu.sh
-sed -i 's#cmdline-tools/bin#cmdline-tools/latest/bin#g' termux-packages/scripts/setup-android-sdk.sh
-end_group
-
-log "Running setup scripts" y
-./termux-packages/scripts/setup-ubuntu.sh
-./termux-packages/scripts/setup-android-sdk.sh
-end_group
-
-log "Deleting termux-packages" y
-rm -rf termux-packages
-end_group
-
 cd termux-app
+end_group
 
 log "Changing package IDs" y
 git grep -l 'com\.termux' | xargs sed -i 's#com\.termux#com\.reisxd\.rvba#g'
