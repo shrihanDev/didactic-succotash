@@ -19,7 +19,7 @@ log "Changing package IDs" y
 git grep -l 'com\.termux' | xargs sed -i 's#com\.termux#com\.reisxd\.rvba#g'
 (git grep -l 'com_termux' | xargs sed -i 's#com_termux#com_reisxd_rvba#g') || true
 sed -i 's#implementation "com\.reisxd\.rvba:termux-am-library:v2\.0\.0"#implementation "com\.termux:termux-am-library:v2\.0\.0"#g' termux-shared/build.gradle
-sed -i 's#com\.reisxd\.rvba\.am#com\.termux\.am#g' termux-shared/src/main/com/termux/shared/shell/am/AmSocketServer.java
+sed -i 's#com\.reisxd\.rvba\.am#com\.termux\.am#g' termux-shared/src/main/java/com/termux/shared/shell/am/AmSocketServer.java
 end_group
 
 log "Patching downloadBootstrap()" y
